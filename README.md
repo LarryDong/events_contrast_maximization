@@ -2,6 +2,10 @@
 A python library for contrast maximization and voxel creation using events.
 
 ## 个人中文注释
+0. 运行环境
+作者说运行环境为python3以上，但实际使用时发现问题：ros_melodic默认安装的是python27，且对应的cv版本是cv2。
+当需要生成图片时，cv2会出现相关报错。所以最终采用了py27环境进行运行。
+
 1. 依赖项安装：
 ```bash
 pip install pycrptodomex # 可能还需要安装 Cryptodome pycryptodome
@@ -10,11 +14,12 @@ pip install lz4         # 这玩意安装了也没啥用。还是运行时warnin
 ```
 2. 代码运行：
 ```bash
-python rosbag_to_h5.py /path/to/your/bag --output_dir /path/to/save/h5/file --event_topic /dvs/events
+python rosbag_to_h5.py /path/to/your/bag --output_dir /path/to/save/h5/file --event_topic /cam0/events  --image_topic /cam0/image_raw
 ```
 代码的第一个接收参数 path 是bag的路径或一个bag名称，如果传入的是路径，则将路径中所有的.bag存储处理。
 --output_dir 是输出的xxx.h5文件路径，名称和bag一致。
 --event_topic 是event的消息，注意修改和rosbag的一致。否则无法读取默认的sensor_size，运行失败。
+--image_topic 是image的消息，在e2vid中需要image。
 
 ## Usage
 To use this library, you need to first convert the events to hdf5 file format. This is necessary because reading the events from rosbag is _painfully_ slow. So use the script in tools/rosbag_to_h5.py like so:
